@@ -19,8 +19,11 @@ repositories {
 
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.21'
+	compile 'joda-time:joda-time:2.9.4'
 	compile 'org.springframework:spring-context:4.3.4.RELEASE'
+	compile group: 'commons-io', name: 'commons-io', version: '2.4'
 
+	runtime 'commons-io:commons-io:2.4'
     testCompile 'junit:junit:4.12'
 }
 

@@ -1,32 +1,38 @@
 package com.embassy.file;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.stereotype.Component;
 
 /**
  * @author e41887 (Burt Cox)
  *
  */
-@Component
 public class FileFilters {
-   private List<String> _include = new ArrayList<>();
-   private List<String> _exclude = new ArrayList<>();
+   private List<FileFilter> _fileFilters = new ArrayList<>();
    
-   public void include(String include) {
-      _include.add(include);
+   public void add(FileFilter fileFilter) {
+      _fileFilters.add(fileFilter);
    }
    
-   public void exclude(String exclude) {
-      _exclude.add(exclude);
+   public void remove(Object filter) {
+      if (filter.getClass().isInstance(FileFilter.class))
+      {
+         FileFilter fileFilter = (FileFilter)filter;
+         
+         if (_fileFilters.contains(fileFilter)) {
+            _fileFilters.remove(fileFilter);
+         }
+      }
    }
    
-   public List<String> getIncludeFilters() {
-      return _include;
-   }
-   
-   public List<String> getExcludeFilters() {
-      return _exclude;
+   public boolean apply(File file) {
+      for (FileFilter fileFilter : _fileFilters) {
+         if (fileFilter.apply(file) == false) {
+            return false;
+         }
+      }
+      
+      return true;
    }
 }

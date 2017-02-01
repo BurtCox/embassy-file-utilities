@@ -9,19 +9,34 @@ import java.util.List;
 /**
  * @author e41887 (Burt Cox)
  *
+ *         Description: Reads each line from the files in _files and sends them to _recordProcessor
+ *
+ *         Creation Date: Jan 26, 2017
+ *
+ *         Copyright 2017 Southwest Airlines. All rights reserved.
+ *
  */
 public class FileSet {
-   private FileSpec _fileSpec;
    private List<File> _files;
    protected RecordProcessor _recordProcessor;
-
-   public FileSpec getFileSpec() {
-      return _fileSpec;
+   private File _currentFile;
+   private int _currentLine;
+   
+   public FileSet(List<File> files, RecordProcessor recordProcessor) {
+      _files = files;
+      _recordProcessor = recordProcessor;
    }
 
-   public void setFileSpec(FileSpec fileSpec) {
-      _fileSpec = fileSpec;
-      _files = FileList.getFiles(_fileSpec.getPath(), _fileSpec.isRecurse(), _fileSpec.getFileFilters());
+   public void setFiles(List<File> files) {
+      _files = files;
+   }
+
+   public File getCurrentFile() {
+      return _currentFile;
+   }
+   
+   public int getCurrentLine() {
+      return _currentLine;
    }
    
    public void processFileSet() throws IOException {
@@ -29,12 +44,14 @@ public class FileSet {
          processFile(file);
       }
    }
-   
+
    public void setRecordProcessor(RecordProcessor recordProcessor) {
       _recordProcessor = recordProcessor;
    }
-   
+
    private void processFile(File file) throws IOException {
+      _currentFile = file;
+      _currentLine = 0;
       BufferedReader reader = new BufferedReader(new FileReader(file));
       String line = null;
 
@@ -46,13 +63,14 @@ public class FileSet {
    }
 
    private void processLine(String line) {
+      _currentLine+=1;
       _recordProcessor.process(line);
    }
-   
+
    public int getFileCount() {
       return _files.size();
    }
-   
+
    public int getRecordCount() {
       return _recordProcessor.getRecordCount();
    }
