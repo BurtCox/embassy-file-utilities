@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
  * @author e41887 (Burt Cox)
@@ -18,6 +19,7 @@ import org.slf4j.LoggerFactory;
  * Copyright 2017 Southwest Airlines. All rights reserved.
  *
  */
+@Service
 public class FileCopy {
    private Logger _logger = LoggerFactory.getLogger(getClass().getSimpleName());
 

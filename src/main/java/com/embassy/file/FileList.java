@@ -6,6 +6,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 /**
  * @author e41887 (Burt Cox)
  *
@@ -16,6 +18,7 @@ import java.util.List;
  *         Copyright 2017 Southwest Airlines. All rights reserved.
  *
  */
+@Service
 public class FileList {
    public static List<File> getFiles(Path path, boolean recursive) {
       FileFilters fileFilters = null;

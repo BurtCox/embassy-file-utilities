@@ -1,7 +1,8 @@
 package com.embassy.file;
 
 import java.io.File;
-import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +10,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author e41887 (Burt Cox)
  *
- *         Description: Create the directories specified by path
+ *         Description: Delete any files in directory 'path'
  *
  *         Creation Date: Jan 30, 2017
  *
@@ -19,18 +20,10 @@ import org.slf4j.LoggerFactory;
 public class CleanDir {
    private Logger _logger = LoggerFactory.getLogger(getClass().getSimpleName());
 
-   public void clean(String path) throws IOException, InterruptedException {
-      Runtime runtime = Runtime.getRuntime();
-      Process subprocess;
-
-      File newPath = new File(path);
-
-      _logger.info("Path={}{}", newPath, newPath.canWrite()); 
-      if (newPath.canWrite()) {
-         _logger.info("rm -rf " + newPath.getPath());
-         subprocess = runtime.exec("rm " + newPath.getPath() + File.separator + "*");
-         subprocess.waitFor();
+   public void clean(String path) {
+      List<File> files = FileList.getFiles(Paths.get(path), false);
+      for (File file : files) {
+         file.delete();
       }
    }
-
 }
